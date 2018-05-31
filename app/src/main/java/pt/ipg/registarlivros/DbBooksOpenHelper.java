@@ -21,6 +21,9 @@ public class DbBooksOpenHelper extends SQLiteOpenHelper {
 
         DbTableBookss dbTableBooks = new DbTableBookss(db);
         dbTableBooks.create();
+
+        DbTableWriter dbTableWriter = new DbTableWriter(db);
+        dbTableWriter.create();
     }
 
     @Override

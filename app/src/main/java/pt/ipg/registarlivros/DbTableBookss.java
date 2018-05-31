@@ -23,7 +23,8 @@ public class DbTableBookss implements BaseColumns {
     public void create(){
 
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                FIELD_TITLE + " TEXT NOT NULL," + FIELD_DISCRIPTION + " TEXT NOT NULL," + FIELD_IDWRITER +"INTEGER,"+"FOREIGN KEY ("+FIELD_IDWRITER+") REFERENCES " +
+
+                FIELD_TITLE  + " TEXT NOT NULL," + FIELD_DISCRIPTION + " TEXT NOT NULL," + FIELD_IDWRITER +"INTEGER,"+"FOREIGN KEY ("+FIELD_IDWRITER+") REFERENCES " +
 
                 DbTableWriter.TABLE_NAME +"("+DbTableWriter._ID+")"+")"
 
