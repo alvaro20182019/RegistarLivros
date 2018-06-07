@@ -20,7 +20,7 @@ public class Book {
     private int idwriter;
     private int id;
     private String discription;
-
+    private String state;
     public String getTitle() {
         return title;
     }
@@ -51,6 +51,14 @@ public class Book {
 
     public void setDiscription(String discription) {
         this.discription = discription;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
     // private int PaginasLidas;
   //  private String categoria;

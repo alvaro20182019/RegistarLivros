@@ -13,6 +13,7 @@ public class DbTableBookss implements BaseColumns {
     public static final String FIELD_TITLE = "title";
     public static final String FIELD_DISCRIPTION = "discription";
     public static final String FIELD_IDWRITER = "idwriter";
+    public static final String FIELD_STATE = "State";
     private final SQLiteDatabase db;
 
     public DbTableBookss (SQLiteDatabase db){
@@ -23,6 +24,7 @@ public class DbTableBookss implements BaseColumns {
     public void create(){
 
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        FIELD_STATE + " TEXT NOT NULL," +
 
                 FIELD_TITLE  + " TEXT NOT NULL," + FIELD_DISCRIPTION + " TEXT NOT NULL," + FIELD_IDWRITER +"INTEGER,"+"FOREIGN KEY ("+FIELD_IDWRITER+") REFERENCES " +
 
