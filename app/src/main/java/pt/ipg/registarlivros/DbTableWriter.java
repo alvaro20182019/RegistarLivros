@@ -36,4 +36,14 @@ public class DbTableWriter implements BaseColumns {
 
     }
 
+    public long insert(ContentValues values){
+       return db.insert(TABLE_NAME,null,values);
+    }
+public long update(ContentValues values, String Whereclause, String[] WhereArgs){
+      return   db.update(TABLE_NAME,values,Whereclause,WhereArgs);
+}
+    public long delete(String Whereclause, String[] whereArgs){
+       return db.delete(TABLE_NAME,Whereclause,whereArgs);
+    }
+
 }

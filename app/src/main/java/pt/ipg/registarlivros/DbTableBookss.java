@@ -1,5 +1,6 @@
 package pt.ipg.registarlivros;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
@@ -31,6 +32,17 @@ public class DbTableBookss implements BaseColumns {
                 DbTableWriter.TABLE_NAME +"("+DbTableWriter._ID+")"+")"
 
                 );
+    }
+
+    public static ContentValues getContentValues(Book book){
+        ContentValues values= new ContentValues();
+        values.put(_ID,book.getId());
+        values.put(FIELD_STATE,book.getTitle());
+        values.put(FIELD_TITLE,book.getTitle());
+        values.put(FIELD_DISCRIPTION,book.getTitle());
+        values.put(FIELD_IDWRITER,book.getTitle());
+        return  values;
+
     }
 
 }
