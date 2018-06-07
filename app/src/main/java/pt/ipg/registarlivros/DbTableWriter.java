@@ -1,5 +1,6 @@
 package pt.ipg.registarlivros;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
@@ -24,6 +25,15 @@ public class DbTableWriter implements BaseColumns {
                 "CREATE TABLE " + TABLE_NAME + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + WRITER_NAME + " TEXT NOT NULL)"
 
         );  //comando sql para criar a tabela
+    }
+
+    public static ContentValues getContentValues(Writer writer){
+        ContentValues values= new ContentValues();
+        values.put(_ID,writer.getId());
+        values.put(WRITER_NAME,writer.getName());
+
+        return  values;
+
     }
 
 }
