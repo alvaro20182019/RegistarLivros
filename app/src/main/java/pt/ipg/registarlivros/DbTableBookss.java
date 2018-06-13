@@ -17,7 +17,7 @@ public class DbTableBookss implements BaseColumns {
     public static final String FIELD_STATE = "State";
     private final SQLiteDatabase db;
 
-    public DbTableBookss (SQLiteDatabase db){
+    public DbTableBookss(SQLiteDatabase db){
         this.db=db;
 
     }
@@ -29,7 +29,7 @@ public class DbTableBookss implements BaseColumns {
 
                 FIELD_TITLE  + " TEXT NOT NULL," + FIELD_DISCRIPTION + " TEXT NOT NULL," + FIELD_IDWRITER +"INTEGER,"+"FOREIGN KEY ("+FIELD_IDWRITER+") REFERENCES " +
 
-                DbTableWriter.TABLE_NAME +"("+DbTableWriter._ID+")"+")"
+                DbTableWriter.TABLE_NAME +"("+ DbTableWriter._ID+")"+")"
 
                 );
     }
@@ -37,12 +37,24 @@ public class DbTableBookss implements BaseColumns {
     public static ContentValues getContentValues(Book book){
         ContentValues values= new ContentValues();
         values.put(_ID,book.getId());
-        values.put(FIELD_STATE,book.getTitle());
+        values.put(FIELD_STATE,book.getState());
         values.put(FIELD_TITLE,book.getTitle());
-        values.put(FIELD_DISCRIPTION,book.getTitle());
-        values.put(FIELD_IDWRITER,book.getTitle());
+        values.put(FIELD_DISCRIPTION,book.getDiscription());
+        values.put(FIELD_IDWRITER,book.getIdwriter());
         return  values;
 
+    }
+
+    public long insert(ContentValues values){
+        return db.insert(TABLE_NAME,null,values);
+    }
+
+    public long update(ContentValues values, String Whereclause, String[] WhereArgs) {
+        return db.update(TABLE_NAME, values, Whereclause, WhereArgs);
+    }
+
+    public long delete(String Whereclause, String[] whereArgs){
+        return db.delete(TABLE_NAME,Whereclause,whereArgs);
     }
 
 }

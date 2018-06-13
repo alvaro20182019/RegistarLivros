@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by ÁlvaroSF on 30/05/2018.
  */
-
+//teste
 public class DbBooksOpenHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "books.db";
@@ -19,8 +19,8 @@ public class DbBooksOpenHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db){//oande é criada a base de dados
 
-        DbTableBookss dbTableBooks = new DbTableBookss(db);
-        dbTableBooks.create();
+      /*  DbTableBookss dbTableBooks = new DbTableBookss(db);
+        dbTableBooks.create();*/
 
         DbTableWriter dbTableWriter = new DbTableWriter(db);
         dbTableWriter.create();

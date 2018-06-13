@@ -1,7 +1,5 @@
 package pt.ipg.registarlivros;
 
-import java.util.Date;
-
 /**
  * Created by ÁlvaroSF on 30/05/2018.
  */
