@@ -12,7 +12,7 @@ import android.provider.BaseColumns;
 public class DbTableWriter implements BaseColumns {
 
 
-    public static final String _ID = "id";
+
     public static final String WRITER_NAME = "nome";
     public static final String TABLE_NAME = "writer";
     private final SQLiteDatabase db;

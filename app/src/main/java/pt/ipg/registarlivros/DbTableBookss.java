@@ -9,12 +9,14 @@ import android.provider.BaseColumns;
  */
 
 public class DbTableBookss implements BaseColumns {
-    public static final String _ID = "id";
+
     public static final String TABLE_NAME = "books";
     public static final String FIELD_TITLE = "title";
     public static final String FIELD_DISCRIPTION = "discription";
     public static final String FIELD_IDWRITER = "idwriter";
     public static final String FIELD_STATE = "State";
+    public static final String FIELD_IDCATEGORY = "idcategory";
+
     private final SQLiteDatabase db;
 
     public DbTableBookss(SQLiteDatabase db){
@@ -27,9 +29,11 @@ public class DbTableBookss implements BaseColumns {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                         FIELD_STATE + " TEXT NOT NULL," +
 
-                FIELD_TITLE  + " TEXT NOT NULL," + FIELD_DISCRIPTION + " TEXT NOT NULL," + FIELD_IDWRITER +"INTEGER,"+"FOREIGN KEY ("+FIELD_IDWRITER+") REFERENCES " +
+                FIELD_TITLE  + " TEXT NOT NULL," + FIELD_DISCRIPTION + " TEXT NOT NULL," + FIELD_IDCATEGORY+"INTEGER ," +  FIELD_IDWRITER +"INTEGER,FOREIGN KEY ("+FIELD_IDWRITER+") REFERENCES " +
 
-                DbTableWriter.TABLE_NAME +"("+ DbTableWriter._ID+")"+")"
+                DbTableWriter.TABLE_NAME +"("+ DbTableWriter._ID+ ") , FOREIGN KEY ("+FIELD_IDCATEGORY+") REFERENCES " +
+
+                DbTableCategory.TABLE_NAME+"("+ DbTableCategory._ID+ "))"
 
                 );
     }
