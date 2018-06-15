@@ -73,9 +73,25 @@ public class DBtest {
                 new String[]{Long.toString(id)}
         );
         assertEquals("Failed to delete writer", 1, rowsAffected);
- 
+
         Cursor cursor2 = tableWriter.query(DbTableWriter.ALL_COLUMNS, null, null, null, null, null);
         assertEquals("number writer after delete ", 0, cursor.getCount());
+    }
+
+    public void booksCRUDtest(){
+        DbBooksOpenHelper dbBooksOpenHelper = new DbBooksOpenHelper(getContext());
+        SQLiteDatabase db = dbBooksOpenHelper.getWritableDatabase();
+        DbTableCategory tableCategory = new DbTableCategory(db);
+        Category category=new Category();
+        category.setNome("Fabula");
+        long idcategory = tableCategory.
+        // Insert/create (C)RUD
+        DbTableBookss tableBookss= new DbTableBookss(db);
+        Book book= new Book();
+        book.setDiscription("comprado em Braga");
+        book.setState("Não Lido");
+        book.setTitle("Era uma vez");
+         long id = tableBookss.insert(DbTableBookss.getContentValues(book));
     }
 
     private Context getContext() {
