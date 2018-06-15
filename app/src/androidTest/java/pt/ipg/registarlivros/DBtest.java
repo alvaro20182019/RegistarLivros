@@ -73,7 +73,7 @@ public class DBtest {
                 new String[]{Long.toString(id)}
         );
         assertEquals("Failed to delete writer", 1, rowsAffected);
-
+ 
         Cursor cursor2 = tableWriter.query(DbTableWriter.ALL_COLUMNS, null, null, null, null, null);
         assertEquals("number writer after delete ", 0, cursor.getCount());
     }
