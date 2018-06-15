@@ -84,14 +84,52 @@ public class DBtest {
         DbTableCategory tableCategory = new DbTableCategory(db);
         Category category=new Category();
         category.setNome("Fabula");
-        long idcategory = tableCategory.
+        long idcategory = tableCategory.insert(DbTableCategory.getContentValues(category));
+
+        DbTableWriter tableWriter= new DbTableWriter(db);
+        Writer writer=new Writer();
+        writer.setName("Chico");
+        long idWriter=tableWriter.insert(
+                DbTableWriter.getContentValues(writer));
         // Insert/create (C)RUD
         DbTableBookss tableBookss= new DbTableBookss(db);
         Book book= new Book();
         book.setDiscription("comprado em Braga");
         book.setState("Não Lido");
         book.setTitle("Era uma vez");
+        book.setIdcategory((int)idcategory);
+        book.setIdwriter((int)idWriter);
          long id = tableBookss.insert(DbTableBookss.getContentValues(book));
+        assertNotEquals("Failed to insert book", -1, id);
+
+        // query/read C(R)UD
+        Cursor cursor = tableBookss.query(DbTableBookss.ALL_COLUMNS, null, null, null, null, null);
+        assertEquals("Failed to read books", 1, cursor.getCount());
+
+
+
+        assertEquals("Incorrect book title", "Era uma vez", book.getTitle());
+        assertEquals("Incorrect book category", idcategory, book.getIdcategory());
+        assertEquals("Incorrect book writer", idWriter, book.getIdwriter());
+        assertEquals("Incorrect book id", id, book.getId());
+
+        // update CR(U)D
+        book.setTitle("Era");
+
+
+        long rowsAffected = tableBookss.update(
+                DbTableBookss.getContentValues(book),
+                DbTableBookss._ID + "=?",
+                new String[]{Long.toString(id)}
+        );
+        assertEquals("Failed to update an book", 1, rowsAffected);
+
+        //delete CRU(D)
+        rowsAffected = tableBookss.delete(
+                DbTableBookss._ID + "=?",
+                new String[]{Long.toString(id)}
+        );
+        assertEquals("Failed to delete an book", 1, rowsAffected);
     }
 
     private Context getContext() {

@@ -16,6 +16,16 @@ public class Book {
 
     private String title;
     private int idwriter;
+    private int idcategory;
+
+    public int getIdcategory() {
+        return idcategory;
+    }
+
+    public void setIdcategory(int idcategory) {
+        this.idcategory = idcategory;
+    }
+
     private int id;
     private String discription;
     private String state;

@@ -1,6 +1,7 @@
 package pt.ipg.registarlivros;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
@@ -16,7 +17,7 @@ public class DbTableBookss implements BaseColumns {
     public static final String FIELD_IDWRITER = "idwriter";
     public static final String FIELD_STATE = "State";
     public static final String FIELD_IDCATEGORY = "idcategory";
-
+    public static final String [] ALL_COLUMNS = new String[] { _ID, FIELD_TITLE, FIELD_STATE, FIELD_TITLE,FIELD_DISCRIPTION,FIELD_IDWRITER,FIELD_IDCATEGORY };
     private final SQLiteDatabase db;
 
     public DbTableBookss(SQLiteDatabase db){
@@ -45,6 +46,7 @@ public class DbTableBookss implements BaseColumns {
         values.put(FIELD_TITLE,book.getTitle());
         values.put(FIELD_DISCRIPTION,book.getDiscription());
         values.put(FIELD_IDWRITER,book.getIdwriter());
+        values.put(FIELD_IDCATEGORY,book.getIdcategory());
         return  values;
 
     }
@@ -60,5 +62,7 @@ public class DbTableBookss implements BaseColumns {
     public long delete(String Whereclause, String[] whereArgs){
         return db.delete(TABLE_NAME,Whereclause,whereArgs);
     }
-
+    public Cursor query (String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
+        return db.query(TABLE_NAME, columns, selection, selectionArgs, groupBy, having, orderBy);
+    }
 }
