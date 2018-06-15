@@ -35,6 +35,7 @@ public class DBtest {
         db.close();
     }
 
+
     public void WriterCRUDtest(){
         DbBooksOpenHelper dbBooksOpenHelper = new DbBooksOpenHelper(getContext());
         SQLiteDatabase db = dbBooksOpenHelper.getWritableDatabase();
@@ -51,8 +52,30 @@ public class DBtest {
         // ler C(R)UD
         Cursor cursor= tableWriter.query(tableWriter.ALL_COLUMNS,null,null,null,null,null);
         assertEquals("ERRO AO LER TABELA WRITER",1,cursor.getColumnCount());
+        assertTrue("Failed to read the first category", cursor.moveToNext());
 
+        Writer writer1 = DbTableWriter.getCurrentCategoryFromCursor(cursor);
+        assertEquals("Incorrect writer name","Fernando Pessoa" , writer.getName());
+        assertEquals("Incorrect writer id", id, writer.getId());
 
+        // update CR(U)D
+        writer.setName("Fernando");
+        long rowsAffected =  tableWriter.update(
+                DbTableWriter.getContentValues(writer),
+                DbTableWriter._ID + "=?",
+                new String[]{Long.toString(id)}
+        );
+        assertEquals("Failed to update writer", 1, rowsAffected);
+
+        // delete CRU(D)
+        rowsAffected = tableWriter.delete(
+                DbTableWriter._ID + "=?",
+                new String[]{Long.toString(id)}
+        );
+        assertEquals("Failed to delete writer", 1, rowsAffected);
+
+        Cursor cursor2 = tableWriter.query(DbTableWriter.ALL_COLUMNS, null, null, null, null, null);
+        assertEquals("number writer after delete ", 0, cursor.getCount());
     }
 
     private Context getContext() {
