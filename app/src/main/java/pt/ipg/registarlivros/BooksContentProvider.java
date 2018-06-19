@@ -118,6 +118,34 @@ public class BooksContentProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        SQLiteDatabase db= BooksOpenHelper.getWritableDatabase();
+        String id = uri.getLastPathSegment();
+        UriMatcher matcher= getBookUriMatcher();
+
+        int rows=0;
+        switch (matcher.match(uri)){
+
+
+            case BOOKS_ID:
+               rows = (int) new DbTableBookss(db).update(values, DbTableBookss._ID +"=?", new String [] { id });
+                       break;
+
+            case CATEGORIES_ID:
+                rows = (int) new DbTableCategory(db).update(values, DbTableCategory._ID +"=?", new String [] { id });
+                break;
+
+
+            case WRITER_ID:
+                rows= (int) new DbTableWriter(db).update(values, DbTableWriter._ID +"=?", new String [] { id });
+
+            default:
+                throw new UnsupportedOperationException("Invalid URI: " + uri);
+        }
+
+        if(rows>0) {
+            notifyChanges(uri);
+        }
+
+        return rows;
     }
 }
