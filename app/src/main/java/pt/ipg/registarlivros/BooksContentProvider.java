@@ -15,7 +15,9 @@ import android.support.annotation.Nullable;
  */
 
 public class BooksContentProvider extends ContentProvider {
-
+private static final String AUTHORITY="pt.ipg.registarlivros";
+private static final String MULTIPLE_ITEMS = "vnd.android.cursor.dir";
+private static final String SINGLE_ITEM = "vnd.android.cursor.item";
     DbBooksOpenHelper BooksOpenHelper;
 
     private  static final int BOOKS=100;
@@ -28,12 +30,12 @@ public class BooksContentProvider extends ContentProvider {
     private  static UriMatcher getBookUriMatcher(){
         UriMatcher uriMatcher= new UriMatcher(UriMatcher.NO_MATCH);
 
-        uriMatcher.addURI("pt.ipg.registarlivros","books",BOOKS);
-        uriMatcher.addURI("pt.ipg.registarlivros","books/#",BOOKS_ID);
-        uriMatcher.addURI("pt.ipg.registarlivros","categories",CATEGORIES);
-        uriMatcher.addURI("pt.ipg.registarlivros","categories/#",CATEGORIES_ID);
-        uriMatcher.addURI("pt.ipg.registarlivros","writers",WRITER);
-        uriMatcher.addURI("pt.ipg.registarlivros","writers/#",WRITER_ID);
+        uriMatcher.addURI(AUTHORITY,"books",BOOKS);
+        uriMatcher.addURI(AUTHORITY,"books/#",BOOKS_ID);
+        uriMatcher.addURI(AUTHORITY,"categories",CATEGORIES);
+        uriMatcher.addURI(AUTHORITY,"categories/#",CATEGORIES_ID);
+        uriMatcher.addURI(AUTHORITY,"writers",WRITER);
+        uriMatcher.addURI(AUTHORITY,"writers/#",WRITER_ID);
         return uriMatcher;
     }
     @Override
@@ -75,8 +77,32 @@ public class BooksContentProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        return null;
+
+        UriMatcher matcher = getBookUriMatcher();
+
+                 switch (matcher.match(uri)) {
+
+                     case BOOKS:
+                            return MULTIPLE_ITEMS + "/" + AUTHORITY + "/" + DbTableBookss.TABLE_NAME;
+                     case BOOKS_ID:
+                         return SINGLE_ITEM + "/" + AUTHORITY + "/" + DbTableBookss.TABLE_NAME;
+
+                     case CATEGORIES:
+                              return MULTIPLE_ITEMS + "/" + AUTHORITY + "/" + DbTableCategory.TABLE_NAME;
+
+                     case CATEGORIES_ID:
+                             return SINGLE_ITEM  + "/" + AUTHORITY + "/" + DbTableCategory.TABLE_NAME;
+                     case WRITER:
+                         return MULTIPLE_ITEMS + "/" + AUTHORITY + "/" + DbTableWriter.TABLE_NAME;
+
+                     case WRITER_ID:
+                         return SINGLE_ITEM  + "/" + AUTHORITY + "/" + DbTableWriter.TABLE_NAME;
+                              default:
+                               throw new UnsupportedOperationException("Unknown URI: " + uri);
+                     }
     }
+
+
 
     @Nullable
     @Override
@@ -113,7 +139,29 @@ public class BooksContentProvider extends ContentProvider {
     }
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        SQLiteDatabase db= BooksOpenHelper.getWritableDatabase();
+        String id = uri.getLastPathSegment();
+        UriMatcher matcher= getBookUriMatcher();
+
+        int rows=0;
+        switch (matcher.match(uri)){
+            case BOOKS_ID:
+                rows = (int) new DbTableBookss(db).delete(DbTableBookss._ID +"=?", new String [] { id });
+                break;
+            case CATEGORIES_ID:
+                rows = (int) new DbTableCategory(db).delete(DbTableCategory._ID +"=?", new String [] { id });
+                break;
+            case WRITER_ID:
+                rows = (int) new DbTableWriter(db).delete(DbTableWriter._ID +"=?", new String [] { id });
+                break;
+
+            default:
+               throw new UnsupportedOperationException("Invalid URI: " + uri);
+        }
+        if(rows>0){
+            notifyChanges(uri);
+        }
+        return rows;
     }
 
     @Override
