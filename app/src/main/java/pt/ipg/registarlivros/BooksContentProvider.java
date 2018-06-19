@@ -4,6 +4,7 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -68,7 +69,7 @@ public class BooksContentProvider extends ContentProvider {
             default:
                throw new UnsupportedOperationException("Invalid URI: " + uri);
         }
-        
+
     }
 
     @Nullable
@@ -80,9 +81,36 @@ public class BooksContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        return null;
+        SQLiteDatabase db = BooksOpenHelper.getWritableDatabase();
+        UriMatcher matcher=getBookUriMatcher();
+
+        long id =-1;
+
+        switch (matcher.match(uri)){
+            case BOOKS:
+                id= new DbTableBookss(db).insert(values);
+                break;
+            case CATEGORIES:
+                id=new DbTableCategory(db).insert(values);
+                break;
+            case WRITER:
+                id=new DbTableWriter(db).insert(values);
+            default:
+               throw new UnsupportedOperationException("Invalid URI: " + uri);
+
+        }
+        if(id>0){
+            notifyChanges(uri);
+            return Uri.withAppendedPath(uri, Long.toString(id));
+        }else{
+            throw new SQLException("Could not insert record");
+        }
     }
 
+
+    private void notifyChanges(Uri uri) {
+        getContext().getContentResolver().notifyChange(uri,null);
+    }
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         return 0;
