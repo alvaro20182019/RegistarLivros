@@ -12,9 +12,12 @@ import android.support.annotation.Nullable;
  */
 
 public class BooksContentProvider extends ContentProvider {
+
+    DbBooksOpenHelper dbBooksOpenHelper;
     @Override
     public boolean onCreate() {
-        return false;
+        dbBooksOpenHelper = new DbBooksOpenHelper(getContext());
+        return true;
     }
 
     @Nullable
