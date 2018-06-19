@@ -2,7 +2,9 @@ package pt.ipg.registarlivros;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,17 +15,60 @@ import android.support.annotation.Nullable;
 
 public class BooksContentProvider extends ContentProvider {
 
-    DbBooksOpenHelper dbBooksOpenHelper;
+    DbBooksOpenHelper BooksOpenHelper;
+
+    private  static final int BOOKS=100;
+    private  static final int BOOKS_ID=101;
+    private  static final int CATEGORIES=200;
+    private  static final int CATEGORIES_ID=201;
+    private  static final int WRITER=300;
+    private  static final int WRITER_ID=301;
+
+    private  static UriMatcher getBookUriMatcher(){
+        UriMatcher uriMatcher= new UriMatcher(UriMatcher.NO_MATCH);
+
+        uriMatcher.addURI("pt.ipg.registarlivros","books",BOOKS);
+        uriMatcher.addURI("pt.ipg.registarlivros","books/#",BOOKS_ID);
+        uriMatcher.addURI("pt.ipg.registarlivros","categories",CATEGORIES);
+        uriMatcher.addURI("pt.ipg.registarlivros","categories/#",CATEGORIES_ID);
+        uriMatcher.addURI("pt.ipg.registarlivros","writers",WRITER);
+        uriMatcher.addURI("pt.ipg.registarlivros","writers/#",WRITER_ID);
+        return uriMatcher;
+    }
     @Override
     public boolean onCreate() {
-        dbBooksOpenHelper = new DbBooksOpenHelper(getContext());
+        BooksOpenHelper = new DbBooksOpenHelper(getContext());
         return true;
     }
 
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        return null;
+        SQLiteDatabase db= BooksOpenHelper.getReadableDatabase();
+        String id = uri.getLastPathSegment();
+        UriMatcher matcher= getBookUriMatcher();
+
+        switch (matcher.match(uri)){
+
+            case BOOKS:
+                return new DbTableBookss(db).query(projection, selection, selectionArgs, null, null, sortOrder);
+            case BOOKS_ID:
+                return new DbTableBookss(db).query(projection, DbTableBookss._ID + "=?", new String[] { id }, null, null, null);
+
+            case CATEGORIES:
+                return new DbTableCategory(db).query(projection, selection, selectionArgs, null, null, sortOrder);
+            case CATEGORIES_ID:
+                return new DbTableCategory(db).query(projection, DbTableCategory._ID + "=?", new String[] { id }, null, null, null);
+
+            case WRITER:
+                return new DbTableWriter(db).query(projection, selection, selectionArgs, null, null, sortOrder);
+            case WRITER_ID:
+                return new DbTableWriter(db).query(projection, DbTableWriter._ID + "=?", new String[] { id }, null, null, null);
+
+            default:
+               throw new UnsupportedOperationException("Invalid URI: " + uri);
+        }
+        
     }
 
     @Nullable
