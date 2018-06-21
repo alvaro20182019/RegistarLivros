@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * Created by ÁlvaroSF on 19/06/2018.
@@ -20,9 +21,15 @@ public class BooksCursorAdapter extends RecyclerView.Adapter<BooksCursorAdapter.
     public BooksCursorAdapter(Context context){
         this.context=context;
     }
+
+    public void atualizarDados(Cursor cursor){
+        if(this.cursor!=cursor){
+            this.cursor=cursor;
+            notifyDataSetChanged();
+        }
+    }
     @NonNull
     @Override
-
     public bookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View item = LayoutInflater.from(context).inflate(R.layout.item_book,parent,false);
         return new bookViewHolder(item);
@@ -30,6 +37,8 @@ public class BooksCursorAdapter extends RecyclerView.Adapter<BooksCursorAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull bookViewHolder holder, int position) {
+        cursor.moveToPosition(position);
+        Book book = DbTableBookss.getCurrentBookFromCursor(cursor);
 
     }
 
@@ -39,8 +48,18 @@ public class BooksCursorAdapter extends RecyclerView.Adapter<BooksCursorAdapter.
     }
 
     public class bookViewHolder extends RecyclerView.ViewHolder{
-        public bookViewHolder(View intemView) {
-            super(intemView);
+        private TextView textViewTitle;
+        private TextView textViewState;
+
+        public bookViewHolder(View itemView) {
+            super(itemView);
+            textViewState= (TextView) itemView.findViewById(R.id.textViewEstado);
+            textViewTitle= (TextView) itemView.findViewById(R.id.textViewTitle);
+        }
+
+        public void setBook(Book book){
+            textViewTitle.setText(book.getTitle());
+            textViewState.setText(book.getState());
         }
     }
 }

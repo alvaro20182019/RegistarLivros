@@ -38,7 +38,22 @@ public class DbTableBookss implements BaseColumns {
 
                 );
     }
-
+public static Book getCurrentBookFromCursor(Cursor cursor){
+        final int posId = cursor.getColumnIndex(_ID);
+        final int posState=cursor.getColumnIndex(FIELD_STATE);
+        final int posTitle=cursor.getColumnIndex(FIELD_TITLE);
+        final int posDiscription=cursor.getColumnIndex(FIELD_DISCRIPTION);
+        final int posIdwriter=cursor.getColumnIndex(FIELD_IDWRITER);
+        final int posIdCategory=cursor.getColumnIndex(FIELD_IDCATEGORY);
+             Book book = new Book();
+             book.setId(cursor.getInt(posId));
+             book.setState(cursor.getString(posState));
+             book.setTitle(cursor.getString(posTitle));
+             book.setDiscription(cursor.getString(posDiscription));
+             book.setIdwriter(cursor.getInt(posIdwriter));
+             book.setIdcategory(cursor.getInt(posIdCategory));
+             return book;
+}
     public static ContentValues getContentValues(Book book){
         ContentValues values= new ContentValues();
         values.put(_ID,book.getId());
