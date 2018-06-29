@@ -39,12 +39,15 @@ public class BooksCursorAdapter extends RecyclerView.Adapter<BooksCursorAdapter.
     public void onBindViewHolder(@NonNull bookViewHolder holder, int position) {
         cursor.moveToPosition(position);
         Book book = DbTableBookss.getCurrentBookFromCursor(cursor);
-
+        holder.setBook(book);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+      if(cursor==null) {
+          return 0;
+      }
+      return cursor.getCount();
     }
 
     public class bookViewHolder extends RecyclerView.ViewHolder{

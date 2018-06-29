@@ -30,7 +30,6 @@ public class DbTableWriter implements BaseColumns {
 
     public static ContentValues getContentValues(Writer writer){
         ContentValues values= new ContentValues();
-        values.put(_ID,writer.getId());
         values.put(WRITER_NAME,writer.getName());
 
         return  values;
