@@ -15,9 +15,12 @@ import android.support.annotation.Nullable;
  */
 
 public class BooksContentProvider extends ContentProvider {
-private static final String AUTHORITY="pt.ipg.registarlivros";
-private static final String MULTIPLE_ITEMS = "vnd.android.cursor.dir";
-private static final String SINGLE_ITEM = "vnd.android.cursor.item";
+    private static final String AUTHORITY="pt.ipg.registarlivros";
+    private static final String MULTIPLE_ITEMS = "vnd.android.cursor.dir";
+    private static final String SINGLE_ITEM = "vnd.android.cursor.item";
+    public static final Uri BASE_URI = Uri.parse("content://" + AUTHORITY);
+    public static final Uri BOOKSS_URI = Uri.withAppendedPath(BASE_URI, DbTableBookss.TABLE_NAME);
+    public static final Uri CATEGORY_URI = Uri.withAppendedPath(BASE_URI, DbTableCategory.TABLE_NAME);
     DbBooksOpenHelper BooksOpenHelper;
 
     private  static final int BOOKS=100;
