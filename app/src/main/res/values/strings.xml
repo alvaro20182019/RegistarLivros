@@ -2,14 +2,16 @@
     <string name="app_name">RegistarLivros</string>
     <string name="action_settings">Settings</string>
     <string name="textview">TextView</string>
-    <string name="titulo">Titulo</string>
+
     <string name="escritor">Escritor</string>
     <string name="salvar">salvar</string>
     <string name="cancelar">cancelar</string>
     <string name="titulo">Titulo</string>
-    <string name="categoria">Categoria</string>
+
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="categoria">Categoria</string>
+    <string name="a_lenda">A lenda</string>
+    <string name="n_o_lido">Não Lido</string>
 
 </resources>

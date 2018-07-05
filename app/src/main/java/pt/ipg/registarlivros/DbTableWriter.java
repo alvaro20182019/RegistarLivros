@@ -8,38 +8,40 @@ import android.provider.BaseColumns;
 /**
  * Created by ÁlvaroSF on 30/05/2018.
  */
-
 public class DbTableWriter implements BaseColumns {
+    public static final String TABLE_NAME = "writers";
+    public static final String FIELD_NAME = "name";
 
+    public static final String [] ALL_COLUMNS = new String[] { _ID, FIELD_NAME };
 
+    private SQLiteDatabase db;
 
-    public static final String WRITER_NAME = "nome";
-    public static final String TABLE_NAME = "writer";
-    private final SQLiteDatabase db;
-    public static final String [] ALL_COLUMNS = new String[] { _ID, WRITER_NAME };
-    public DbTableWriter(SQLiteDatabase db){
-        this.db=db;
-
+    public DbTableWriter(SQLiteDatabase db) {
+        this.db = db;
     }
-    public void create(){   // objetivo é criar uma tabela na base de dabos
+
+    public void create() {
         db.execSQL(
-                "CREATE TABLE " + TABLE_NAME + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + WRITER_NAME + " TEXT NOT NULL)"
-
-        );  //comando sql para criar a tabela
+                "CREATE TABLE " + TABLE_NAME + " (" +
+                        _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        FIELD_NAME + " TEXT NOT NULL" +
+                        ")"
+        );
     }
 
-    public static ContentValues getContentValues(Writer writer){
-        ContentValues values= new ContentValues();
-        values.put(WRITER_NAME,writer.getName());
+    public static ContentValues getContentValues(Writer writer) {
+        ContentValues values = new ContentValues();
 
-        return  values;
+        values.put(FIELD_NAME, writer.getName());
 
+        return values;
     }
+
     public static Writer getCurrentCategoryFromCursor(Cursor cursor) {
         final int posId = cursor.getColumnIndex(_ID);
-        final int posName = cursor.getColumnIndex(WRITER_NAME);
+        final int posName = cursor.getColumnIndex(FIELD_NAME);
 
-        Writer writer = new Writer();
+            Writer writer = new Writer();
 
         writer.setId(cursor.getInt(posId));
         writer.setName(cursor.getString(posName));
@@ -47,15 +49,21 @@ public class DbTableWriter implements BaseColumns {
         return writer;
     }
 
-    public long insert(ContentValues values){
-       return db.insert(TABLE_NAME,null,values);
+    public long insert(ContentValues values) {
+        return db.insert(TABLE_NAME, null, values);
     }
-    public long update(ContentValues values, String WhereClause, String[] WhereArgs){
-      return   db.update(TABLE_NAME,values,WhereClause,WhereArgs);
+
+
+    public int update(ContentValues values, String whereClause, String[] whereArgs) {
+        return db.update(TABLE_NAME, values, whereClause, whereArgs);
     }
-    public long delete(String Whereclause, String[] whereArgs){
-       return db.delete(TABLE_NAME,Whereclause,whereArgs);
+
+
+    public int delete(String whereClause, String[] whereArgs) {
+        return db.delete(TABLE_NAME, whereClause, whereArgs);
     }
+
+
     public Cursor query (String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
         return db.query(TABLE_NAME, columns, selection, selectionArgs, groupBy, having, orderBy);
     }

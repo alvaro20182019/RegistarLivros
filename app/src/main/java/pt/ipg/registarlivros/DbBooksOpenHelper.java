@@ -26,18 +26,18 @@ public class DbBooksOpenHelper extends SQLiteOpenHelper {
         DbTableCategory dbTableCategory = new DbTableCategory(db);
         dbTableCategory.create();
 
-        DbTableWriter dbTableWriter = new DbTableWriter(db);
-        dbTableWriter.create();
+     //   DbTableWriter dbTableWriter = new DbTableWriter(db);
+      //  dbTableWriter.create();
 
-        if(!PRODUCAO){
-            InserirDB(db);
+        if(PRODUCAO==false){
+            seed(db);
         }
     }
 
-    public  void  InserirDB(SQLiteDatabase db){
-        DbTableWriter dbTableWriter= new DbTableWriter(db);
+    private void  seed(SQLiteDatabase db){
+      //  DbTableWriter dbTableWriter= new DbTableWriter(db);
 
-        Writer writer= new Writer();
+       /* Writer writer= new Writer();
         writer.setName("Enid Blyton");
         int idWriter1 = (int) dbTableWriter.insert(DbTableWriter.getContentValues(writer));
 
@@ -48,7 +48,7 @@ public class DbBooksOpenHelper extends SQLiteOpenHelper {
         writer= new Writer();
         writer.setName(" Herbert George Wells");
         int idWriter3 = (int) dbTableWriter.insert(DbTableWriter.getContentValues(writer));
-
+*/
         DbTableCategory dbTableCategories = new DbTableCategory(db);
 
         Category category = new Category();
@@ -70,22 +70,25 @@ public class DbBooksOpenHelper extends SQLiteOpenHelper {
 
         book.setTitle("A ilha secreta");
         book.setIdcategory(idCategory1);
-        book.setIdwriter(idWriter1);
+        //book.setIdwriter(idWriter1);
         book.setState("Lido");
+        book.setDiscription("custou 5 euros");
         dbTableBookss.insert(DbTableBookss.getContentValues(book));
 
         book=new Book();
         book.setTitle("Drácula");
         book.setIdcategory(idCategory2);
-        book.setIdwriter(idWriter2);
+      //  book.setIdwriter(idWriter2);
         book.setState("Não Lido");
+        book.setDiscription("custou 5 euros");
         dbTableBookss.insert(DbTableBookss.getContentValues(book));
 
         book=new Book();
         book.setTitle("A Guerra do Mundos");
         book.setIdcategory(idCategory3);
-        book.setIdwriter(idWriter3);
+     //   book.setIdwriter(idWriter3);
         book.setState("Lido");
+        book.setDiscription("custou 5 euros");
         dbTableBookss.insert(DbTableBookss.getContentValues(book));
     }
     @Override

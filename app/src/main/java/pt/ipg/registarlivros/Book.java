@@ -15,7 +15,7 @@ public class Book {
     }*/
 
     private String title;
-    private int idwriter;
+  //  private int idwriter;
     private int idcategory;
 
     public int getIdcategory() {
@@ -37,13 +37,13 @@ public class Book {
         this.title = title;
     }
 
-    public int getIdwriter() {
+    /*public int getIdwriter() {
         return idwriter;
     }
 
     public void setIdwriter(int idwriter) {
         this.idwriter = idwriter;
-    }
+    }*/
 
     public int getId() {
         return id;

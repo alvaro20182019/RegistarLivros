@@ -37,8 +37,8 @@ public class BooksContentProvider extends ContentProvider {
         uriMatcher.addURI(AUTHORITY,"books/#",BOOKS_ID);
         uriMatcher.addURI(AUTHORITY,"categories",CATEGORIES);
         uriMatcher.addURI(AUTHORITY,"categories/#",CATEGORIES_ID);
-        uriMatcher.addURI(AUTHORITY,"writers",WRITER);
-        uriMatcher.addURI(AUTHORITY,"writers/#",WRITER_ID);
+       // uriMatcher.addURI(AUTHORITY,"writers",WRITER);
+        //uriMatcher.addURI(AUTHORITY,"writers/#",WRITER_ID);
         return uriMatcher;
     }
     @Override
@@ -65,12 +65,12 @@ public class BooksContentProvider extends ContentProvider {
                 return new DbTableCategory(db).query(projection, selection, selectionArgs, null, null, sortOrder);
             case CATEGORIES_ID:
                 return new DbTableCategory(db).query(projection, DbTableCategory._ID + "=?", new String[] { id }, null, null, null);
-
+/*
             case WRITER:
                 return new DbTableWriter(db).query(projection, selection, selectionArgs, null, null, sortOrder);
             case WRITER_ID:
                 return new DbTableWriter(db).query(projection, DbTableWriter._ID + "=?", new String[] { id }, null, null, null);
-
+*/
             default:
                throw new UnsupportedOperationException("Invalid URI: " + uri);
         }
@@ -95,11 +95,12 @@ public class BooksContentProvider extends ContentProvider {
 
                      case CATEGORIES_ID:
                              return SINGLE_ITEM  + "/" + AUTHORITY + "/" + DbTableCategory.TABLE_NAME;
-                     case WRITER:
+                    /* case WRITER:
                          return MULTIPLE_ITEMS + "/" + AUTHORITY + "/" + DbTableWriter.TABLE_NAME;
 
                      case WRITER_ID:
                          return SINGLE_ITEM  + "/" + AUTHORITY + "/" + DbTableWriter.TABLE_NAME;
+                              */
                               default:
                                throw new UnsupportedOperationException("Unknown URI: " + uri);
                      }
@@ -122,8 +123,8 @@ public class BooksContentProvider extends ContentProvider {
             case CATEGORIES:
                 id=new DbTableCategory(db).insert(values);
                 break;
-            case WRITER:
-                id=new DbTableWriter(db).insert(values);
+        //    case WRITER:
+        //        id=new DbTableWriter(db).insert(values);
             default:
                throw new UnsupportedOperationException("Invalid URI: " + uri);
 
@@ -132,7 +133,7 @@ public class BooksContentProvider extends ContentProvider {
             notifyChanges(uri);
             return Uri.withAppendedPath(uri, Long.toString(id));
         }else{
-            throw new SQLException("Could not insert record");
+            throw new SQLException("erro ao inserir");
         }
     }
 
@@ -154,10 +155,10 @@ public class BooksContentProvider extends ContentProvider {
             case CATEGORIES_ID:
                 rows = (int) new DbTableCategory(db).delete(DbTableCategory._ID +"=?", new String [] { id });
                 break;
-            case WRITER_ID:
+         /*   case WRITER_ID:
                 rows = (int) new DbTableWriter(db).delete(DbTableWriter._ID +"=?", new String [] { id });
                 break;
-
+*/
             default:
                throw new UnsupportedOperationException("Invalid URI: " + uri);
         }
@@ -186,9 +187,9 @@ public class BooksContentProvider extends ContentProvider {
                 break;
 
 
-            case WRITER_ID:
+          /*  case WRITER_ID:
                 rows= (int) new DbTableWriter(db).update(values, DbTableWriter._ID +"=?", new String [] { id });
-
+*/
             default:
                 throw new UnsupportedOperationException("Invalid URI: " + uri);
         }
